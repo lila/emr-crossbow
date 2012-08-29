@@ -1,0 +1,278 @@
+body {
+	font-family: 'lucida grande', helvetica;
+	margin: 0px;
+	border-top: 3px solid #F1A92C;
+}
+
+div.image:after,
+div.box:after,
+div.presentation:after,
+#header:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+img {
+	border: 0px;
+}
+
+#main {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#FFFFFF)); /* Chrome,Safari4+ */	
+}
+
+div.footer {
+	text-align: center;
+	font-size: 12px;
+	color: #222;
+	padding: 10px;
+	margin-top: 40px;
+}
+
+div.amazon_company {
+	padding-top: 5px;
+}
+
+#header li {
+	font-size: 13px;
+}
+
+.container {
+	margin: 0px auto;
+	width: 952px;
+	padding-top: 20px;
+}
+
+ul.menu {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+ul {
+	list-style: square;
+}
+
+li.menu {
+	float: left;
+	width: 112px;
+	padding-top: 20px;
+	text-align: center;
+}
+
+li.logo {
+	padding-top: 0px;
+	width: 250px;
+}
+
+li.menu a, li.menu a:link, li.menu a:visited {
+	color: #1C1A1A;
+	text-decoration: none;
+	border-bottom: 1px solid #ccc;
+}
+
+li.menu a:hover {
+	color: #000;
+	border-bottom: 1px solid #E37E24;
+}
+
+a.image, a.image:link, a.image:visited {
+	border-bottom: 0px !important;
+}
+
+a.image:hover {
+	border: 0px;
+}
+
+div#content {
+	margin-top: 10px;
+}
+
+div.item {
+}
+
+div.text-item {
+	padding: 10px;
+}
+
+div.text {
+	text-align: center;
+	padding: 20px;
+	color: #666;
+}
+
+div.small-text {
+	text-align: center;
+	padding: 5px 0px 5px 0px;
+	color: #666;
+}
+
+
+div.text p.secondary {
+	color: #999;
+	font-size: 13px;
+	line-height: 1.6em;
+}
+
+div.legend a, div.legend a:visited, div.legend a:link, div.text a, div.text a:visited, div.text a:link {
+	color: #666;
+	border-bottom: 1px solid #ccc;
+	text-decoration: none;
+}
+
+div.legend a:hover, div.text a:hover {
+	text-decoration: none;
+	border-bottom: 1px solid #E37E24;
+	color: #000;
+}
+
+div#items {
+	width: 860px;
+	margin: 0 auto;
+	padding-top: 20px;
+}
+
+div.presentation {
+	margin-top: 10px;
+	padding-bottom: 30px;
+	border-bottom: 1px solid #cecece;
+	margin-bottom: 30px;
+}
+
+div.slides {
+	float: left;
+	width: 370px;
+}
+
+div.legend {
+	float: left;
+	width: 440px;
+	padding-top: 15px;
+}
+
+div.item h1 {
+	text-align: center;
+	font-size: 22px;
+}
+
+div.legend h1 {
+	margin: 0px;
+	padding: 0px;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+div.legend p {
+	color: #999;
+	font-size: 13px;
+	line-height: 1.6em;
+}
+
+div.box {
+	border: 1px solid #999;
+	line-height: 1.5em;
+	padding: 15px;
+	font-size: 11pt;
+	-webkit-border-radius: 5px;	
+}
+
+div.box p.secondary {
+	color: #555;
+	font-size: 13px;
+	line-height: 1.6em;
+}
+
+div.box h2 {
+	font-size: 13px;
+}
+
+div.box a, div.box a:visited, div.box a:link {
+	color: #666;
+	border-bottom: 1px solid #ccc;
+	text-decoration: none;
+}
+
+div.box a:hover {
+	text-decoration: none;
+	border-bottom: 1px solid #E37E24;
+	color: #000;
+}
+
+div.box p.actions {
+	text-align: right;
+	padding-right: 10px;
+	padding-top: 10px;
+}
+
+div.box p.actions a, div.box p.actions a:link, div.box p.actions a:visited {
+	border: 1px solid #555;
+	padding: 5px;
+	-webkit-border-radius: 3px;
+	background: #F1A92C;
+	color: #000;
+	font-size: 12px;
+}
+
+div.box p.actions a:hover {
+	background: #FFE72D;
+}
+
+div.small-item {
+	text-align: center;
+	font-size: 11px;
+	color: #555;
+	padding-top: 4px;
+}
+
+div.small-item a, div.small-item a:link, div.small-item a:visited {
+	text-decoration: none;
+	color: #B47E21;
+}
+
+div.small-item a:hover {
+	text-decoration: underline;
+}
+
+div.section {
+	margin-bottom: 20px;
+}
+
+div.notes {
+	padding-top: 20px;
+	font-size: 11px;
+	line-height: 1.5em;
+}
+
+div.image {
+	margin-bottom: 20px;
+}
+
+p.command {
+	background: #555;
+	color: #fff;
+	font-family: courier;
+	padding: 10px;
+}
+
+ul.options {
+	margin: 0px;
+	padding: 0px 0px 20px 40px;
+	font-size: 12px;
+	color: #555;
+}
+
+pre.command {
+	background: #555;
+	color: #fff;
+	font-family: courier;
+	padding: 10px;	
+	font-size: 11px;
+	line-height: 1.2em;
+}
+
+
+div.final {
+	background: #efefef;
+}

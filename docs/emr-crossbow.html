@@ -1,0 +1,277 @@
+<html>
+<head>
+	<title>Amazon Web Services - Tutorials</title>
+	<link rel="stylesheet" href="screen.css" type="text/css" media="screen" title="no title" charset="utf-8"> 
+	<link rel="shortcut icon" type="image/ico" href="http://d36cz9buwru1tt.cloudfront.net/favicon.ico">
+  
+</head>
+
+<body>
+	<div id='main'>
+		<div id='header' class='container'>
+			<ul class='menu'>
+				<li class='menu'><a href='http://aws.amazon.com'>Home</li>
+				<li class='menu'><a href='http://aws.amazon.com/products'>Products</a></li>
+				<li class='menu'><a href='http://aws.amazon.com/solutions/case-studies/'>Case Studies</a></li>			
+				<li class='menu logo'><a href='http://aws.amazon.com' class='image'><img src="images/logo-t.gif" width="164" height="60" alt="Amazon Web Services"></a></li>
+				<li class='menu'><a href='http://aws.amazon.com/support'>Support</a></li>			
+				<li class='menu'><a href='http://aws.amazon.com/contact'>Contact Us</a></li>
+				<li class='menu'><a href='http://aws.amazon.com/free'>Getting started</a></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div id='content' class='container'>
+		<div class='item'>
+			<h1>Elastic MapReduce with <a href="http://bowtie-bio.sourceforge.net/crossbow/index.shtml">CrossBow</a></h1>
+			<div class='small-text'>			
+				<p>
+					EMR Training
+				</p>
+			</div>
+		</div>
+	</div>
+	
+	<div id='items'>
+		
+		<div class='box section'>
+			<h2>Overview:</h2>
+			<p>
+				Crossbow is a scalable software pipeline for whole genome resequencing analysis. It combines Bowtie, an ultrafast and memory efficient short read aligner, and SoapSNP, and an accurate genotyper. These tools are combined in an automatic, parallel pipeline that runs in the cloud (Elastic MapReduce in this case) exploiting multiple computers and CPUs wherever possible. The pipeline can analyze over 35x coverage of a human genome in one day on a 10-node local cluster, or in 3 hours for about $85 using a 40-node, 320-core cluster rented from Amazon Web Services.
+			</p>
+							
+						
+<!--			<p class='secondary'>
+				<strong>Read more</strong>, or <a href='../../intro.html'>view more exercises &rarr;</a>
+			</p>
+				
+			<p class='actions'>
+				<a href='streaming.html'>&larr; Back</a>&nbsp;				
+				<a href='hive.html'>Next &rarr;</a>
+			</p>													
+-->				
+		</div>
+		
+		<div class='box section'>
+			<h2>Links to More information</h2>
+			<p>
+				<ul>
+					<li> <a href="http://aws.amazon.com/elasticmapreduce/">Elastic Map-Reduce</a> product page,</li>
+					<li> <a href="http://bowtie-bio.sourceforge.net/crossbow/index.shtml">CrossBow </a> sourceforge site</li>
+					<ul>
+						<li><small><em>Langmead B, Schatz MC, Lin J, Pop M, Salzberg SL. Searching for SNPs with cloud computing. Genome Biol 10:R134.</em></small></li>
+					</ul>
+			</p>
+		</div>
+
+	
+		<div class='box section'>
+			<h2>Creating an EMR Cluster</h2>
+			
+			<p>We will create a new hadoop cluster, add custom bootstrap action that will provision the CrossBow software on it, then log in to the headnode and manually launch a sample analysis.</p>
+			
+			<div class='image'>
+				<div class='slides'>
+					<img src="images/console-1.png" width="350" alt="Console">
+				</div>
+				<div class='legend'>
+					From the web management console, select the Elastic MapReduce tab.
+					<p class='secondary'>
+						As with the <a href='http://www.bigdatahpc.com/tutorial/intro/elastic/managing.html'>introductory example</a> you should create an S3 bucket to store any results from your analysis.
+					</p>
+					<p class='secondary'>
+						Select 'Create new job flow' from the dashboard.
+					</p>
+				</div>
+			</div>
+			
+			<div class='image'>
+				<div class='slides'>
+					<img src="images/console-2.png" width="350" alt="Console">
+				</div>
+				<div class='legend'>
+					Give the job flow a name and select 'Pig Program'. 
+					
+					<p class='secondary'>
+						Click 'Continue', then select "Interactive Pig Session", and click 'Continue' again.					</p>
+					
+					<p class='secondary'>
+						The next screen will ask for instance types and numbers, the defaults of 2 instances of type m1.small is fine.  Click 'Continue'. </p>
+										
+				</div>
+			</div>
+			
+			<div class='image'>
+				<div class='slides'>
+					<img src="images/console-3.png" width="350" alt="Console">
+				</div>
+				<div class='legend'>
+				  	Specify the Amazon EC2 Key Pair
+					
+					<p class='secondary'>
+						The name of the keypair will be provided for you. </p>
+
+					<p class='secondary'>
+						The remainder of the settings can be defaulted.</p>
+						
+				</div>
+			</div>
+			
+			<div class='image'>
+				<div class='slides'>
+					<img src="images/console-4.png" width="350" alt="Console">
+				</div>
+				<div class='legend'>
+					Specify a custom bootstrap action that will provision the Crossbow software.
+					
+					<p class='secondary'>
+						Select 'Custom Action' from the drop down list and specify the s3 location as:</p>
+					<p class='command'>
+						s3://karan.crossbow.emr/config/config-crossbow.sh
+					</p>
+
+					<p class='secondary'>
+						Click 'Continue' again.  The next screen will just confirm all the settings.  If correct, click 'Create Job Flow'.  At this point, AWS will provision the instances for your cluster, install and configure Hadoop as well as the custom software specified in the bootstrap action, and bring everything up.  Depending on the number of instances and instance types it may take a few minutes before the cluster is ready.  When it is ready, it will be in the "Waiting" state. </p>
+										
+				</div>
+			</div>
+			
+		</div>
+		<div class='box section'>
+			<h2>Running CrossBow</h2>
+			
+			<p>Now that we have the EMR cluster up, and the crossbow software installed (that's what the bootstrap action did for us), we can now focus on the using the software to solve our scientific problem.
+			</p>
+			
+			<p class='secondary'>
+			
+			The CrossBow website has a <a href='http://bowtie-bio.sourceforge.net/crossbow/manual.shtml#hadoop'>very detailed tutorial with sample datafiles and commandlines</a>.  You can jump there and follow the tutorial on their site, follow along below.   </p>
+			
+			<p>
+				Using the x509 certificate associated with the <em>keypair</em> with which you created the cluster, log into the cluster's head node:</p>
+			<p class='command'>
+				% ssh -i /Users/karanb/.ssh/normal.pem hadoop@ec2-107-20-81-123.compute-1.amazonaws.com</br>
+				Linux (none) 2.6.35.11-83.9.amzn1.x86_64 #1 SMP Sat Feb 19 23:42:04 UTC 2011 x86_64</br>
+				--------------------------------------------------------------------------------</br>
+</br>
+				Welcome to Amazon Elastic MapReduce running Hadoop and Debian/Squeeze.</br>
+</br>
+				Hadoop is installed in /home/hadoop. Log files are in /mnt/var/log/hadoop. Check</br>
+				/mnt/var/log/hadoop/steps for diagnosing step failures.</br>
+</br>
+				The Hadoop UI can be accessed via the following commands: </br>
+</br>
+				  JobTracker    lynx http://localhost:9100/</br>
+				  NameNode      lynx http://localhost:9101/</br>
+</br>
+				--------------------------------------------------------------------------------</br>
+				Last login: Tue Aug 28 22:03:56 2012 from 96.240.10.106</br>
+				% </br>
+			</p>
+			
+			<p>Test your Crossbow installation by running:</p>
+			
+			<p class='command'>
+			% $CROSSBOW_HOME/cb_hadoop --test
+			</p>
+			
+			<p>From the master, download the file named <code>e_coli.jar</code> from the following URL:
+
+			<code>http://crossbow-refs.s3.amazonaws.com/e_coli.jar</code>
+			
+			E.g. with this command:
+
+			<p class='command'>
+			% wget http://crossbow-refs.s3.amazonaws.com/e_coli.jar
+			</p>
+			
+			<p>Install <code>e_coli.jar</code> in HDFS (the Hadoop distributed filesystem) with the following commands. 
+			
+			<p class='command'>	
+			% hadoop dfs -mkdir /crossbow-refs </br>
+			% hadoop dfs -put e_coli.jar /crossbow-refs/e_coli.jar </br>
+			</p>
+			
+			<p class='secondary'> The first creates a directory in HDFS (you will see a warning message if the directory already exists) and the second copies the local jar files into that directory. In this example, we deposit the jars in the /crossbow-refs directory, but any HDFS directory is fine.</p>
+
+			<p>Next install the manifest file in HDFS:</p>
+
+			<p class='command'>
+			% hadoop dfs -mkdir /crossbow/example/e_coli</br>
+			% hadoop dfs -put $CROSSBOW_HOME/example/e_coli/small.manifest /crossbow/example/e_coli/small.manifest </br>
+			</p>
+			
+			<p>Now start the job by running:</p>
+
+			<p class='command'>
+			$CROSSBOW_HOME/cb_hadoop \</br>
+			    --preprocess \</br>
+			    --input=hdfs:///crossbow/example/e_coli/small.manifest \</br>
+			    --output=hdfs:///crossbow/example/e_coli/output_small \</br>
+			    --reference=hdfs:///crossbow-refs/e_coli.jar \</br>
+			    --all-haploids \</br>
+			    --fastq-dump /opt/sratoolkit.2.1.16-centos_linux64/bin/fastq-dump</br>
+			</p>
+			
+			<p>The <code>--preprocess</code> option instructs Crossbow to treat the input as a manifest file. As the first stage of the pipeline, Crossbow will download the files specified on each line of the manifest file and preprocess them into Crossbow's read format. The <code>--reference</code> option specifies the location of the reference jar contents. The <code>--output</code> option specifies where the final output is placed.</p>
+			
+			<p>Depending on your cluster size and instance types, it may take some time to compute, there will be 4 map-reduce iterations and the stdout of the command should eventually show that the calculations were complete without errors.<p>
+				
+			<p>The output dataset will be in HDFS, and can be retrieved using</p>
+			
+			<p class='command'>
+				% hadoop fs -get /crossbow/example/e_coli/output_small/complete_genome.gz .</br>
+			</p>
+			
+		</div>
+		
+		<div class='box section'>
+			<h2>Shutdown cluster</h2>
+		
+			<div class='image'>
+				<div class='slides'>
+					<img src="images/console-2.png" width="350" alt="Console">
+				</div>
+				<div class='legend'>
+					Don't forget to terminate the cluster.
+					<p class='secondary'>
+						We'll create a basic EMR cluster, log into the head node and start jobs from the commandline.  You'll need to have ssh either through <a href="http://www.jfitz.com/tips/putty_config.html">putty</a> or natively if you have a mac.
+					</p>
+					<p class='secondary'>
+						Click 'Continue', then select "Interactive Pig Session", and click 'Continue' again.					</p>
+					
+					<p class='secondary'>
+						The next screen will ask for instance types and numbers, the defaults of 2 instances of type m1.small is fine.  Click 'Continue'. </p>
+										
+				</div>
+			</div>
+					
+		</div>
+		
+		<div class='box section final'>
+			<h2>Exercise complete!</h2>
+			<p>
+				In this exercise we used Elastic MapReduce create a hadoop cluster, provision the cluster with third-party software, logged into the headnode performed a sample resequencing analysis.
+				
+			</p>	
+
+			<p class='actions'>
+				<a href='http://www.awsps.com/training/nih/'>&larr; Back</a>&nbsp;				
+			</p>								
+					
+		</div>		
+				
+		<div class='small-item'>
+			Jump to: <a href='../../index.html'>Getting started</a> &middot; <a href='../../slides.html'>Slide decks</a> &middot; <a href='../../intro.html'>Exercises</a> &middot; <a href='../../feedback.html'>Feedback &amp; Help</a>
+		</div>
+	</div>
+	
+	<div class='footer'>
+		&copy; 2011, Amazon Web Services LLC or its affiliates. All rights reserved.
+		<div class='amazon_company'>
+			<img src='./images/logo_an_amazon_company.gif' />
+		</div>
+	</div>
+	
+</body>
+</html>

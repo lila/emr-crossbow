@@ -1,0 +1,52 @@
+EMR-crossbow
+----------------
+
+simple example of Elastic Map Reduce bootstrap actions for installing crossbow
+
+To use
+======
+
+see the makefile.  edit the variables at the top:
+
+S3CMD                   = s3cmd
+EMR			= elastic-mapreduce
+CLUSTERSIZE		= 2 
+REGION                  = us-east
+KEY			= ${HOME}/.ssh/normal.pem
+BUCKET			= s3://$(USER).crossbow.emr
+
+requires that the elastic-mapreduce commandline tools, s3cmd and maven/java are all installed
+and configured.  the above are paths, or make sure that the commands are in your PATH 
+environment variable.
+
+Prerequisites
+=============
+
+you need the following:
+  - make
+  - emr commandline tools (seem below for html link)
+  - s3cmd (see below)
+
+to run
+======
+
+---- stage the data from local machine to s3 ----
+
+% make create
+
+this will copy the data (scripts, jar files, etc) to a new bucket created on s3
+and creates a new cluster as defined in the makefile.  It puts the jobflow id into a file
+./jobflowid for later use.
+
+  % make sshproxy
+
+and then point your local browser to http://localhost:9100/
+
+---- cleanup ----
+
+don't forget to clean up
+
+% make destroy
+
+this will remove the s3 bucket and terminate the cluster.
+
